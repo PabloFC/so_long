@@ -6,7 +6,7 @@
 /*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:35 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/09 10:37:36 by pafuente         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:41:09 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 so_long/
 ├── Makefile
-├── lib/
-│   └── MLX42/
+├── MLX42/
+│   
 ├── include/
 │   └── so_long.h
 ├── src/
