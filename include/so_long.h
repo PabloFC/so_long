@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 10:31:29 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/09 13:43:10 by pafuente         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -20,6 +8,9 @@
 # include <stdio.h>
 # include <string.h>
 # include "MLX42/MLX42.h"
+#define WIDTH 256
+#define HEIGHT 256
+
 
 # define TILE_SIZE 64
 
@@ -47,22 +38,22 @@ typedef struct s_game
 }	t_game;
 
 // Map
-char	**read_map(const char *file, t_game *game);
-bool	validate_map(t_game *game);
-bool	validate_path(t_game *game);
-void	free_map(char **map);
+// char	**read_map(const char *file, t_game *game);
+// bool	validate_map(t_game *game);
+// bool	validate_path(t_game *game);
+// void	free_map(char **map);
 
-// Init y render
-void	init_game(t_game *game);
-void	load_textures(t_game *game);
-void	render_map(t_game *game);
+// // Init y render
+// void	init_game(t_game *game);
+// void	load_textures(t_game *game);
+// void	render_map(t_game *game);
 
-// Juego
-void	move_player(t_game *game, int dx, int dy);
-void	handle_input(mlx_key_data_t keydata, void *param);
+// // Juego
+// void	move_player(t_game *game, int dx, int dy);
+// void	handle_input(mlx_key_data_t keydata, void *param);
 
-// Utilidades
-void	error_exit(const char *msg);
-void	close_game(t_game *game);
+// // Utilidades
+// void	error_exit(const char *msg);
+// void	close_game(t_game *game);
 
 #endif
