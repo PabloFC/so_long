@@ -6,7 +6,7 @@
 /*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:35 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/12 12:32:27 by pafuente         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:44:01 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,3 @@ int32_t	main(void)
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
-
-/*Estructura
-
-
-so_long/
-├── main.c          ✅
-├── include/        ✅ contiene so_long.h
-├── Makefile        ✅
-├── MLX42/
-├── maps/
-└── ...
-*/

@@ -6,7 +6,7 @@
 #    By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/08 13:05:32 by pafuente          #+#    #+#              #
-#    Updated: 2025/05/12 11:47:19 by pafuente         ###   ########.fr        #
+#    Updated: 2025/05/13 12:17:43 by pafuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ MLX_DIR = MLX42
 MLX_FLAGS = -L$(MLX_DIR)/build -lmlx42 -ldl -lm -lglfw -pthread
 INCLUDES = -Iinclude -I$(MLX_DIR)/include
 
-SRC = main.c
+SRC = main.c init.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
