@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/14 14:09:34 by pafuente          #+#    #+#             */
+/*   Updated: 2025/05/14 14:10:34 by pafuente         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -9,12 +21,9 @@
 # include <string.h>
 # include "MLX42/MLX42.h"
 # include "libft.h"
-#define WIDTH 256
-#define HEIGHT 256
-
-
+# define WIDTH 256
+# define HEIGHT 256
 # define TILE_SIZE 64
-
 # define WALL '1'
 # define FLOOR '0'
 # define PLAYER 'P'
