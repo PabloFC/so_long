@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	error_exit(const char *msg)
+void error_exit(const char *msg)
 {
 	ft_printf("Error\n%s\n", msg);
 	exit(EXIT_FAILURE);
