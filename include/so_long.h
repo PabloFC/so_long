@@ -8,6 +8,7 @@
 # include <stdio.h>
 # include <string.h>
 # include "MLX42/MLX42.h"
+# include "libft.h"
 #define WIDTH 256
 #define HEIGHT 256
 
@@ -37,23 +38,7 @@ typedef struct s_game
 	int			collectibles;
 }	t_game;
 
-// Map
-// char	**read_map(const char *file, t_game *game);
-// bool	validate_map(t_game *game);
-// bool	validate_path(t_game *game);
-// void	free_map(char **map);
-
-// // Init y render
-// void	init_game(t_game *game);
-// void	load_textures(t_game *game);
-// void	render_map(t_game *game);
-
-// // Juego
-// void	move_player(t_game *game, int dx, int dy);
-// void	handle_input(mlx_key_data_t keydata, void *param);
-
-// // Utilidades
-// void	error_exit(const char *msg);
-// void	close_game(t_game *game);
+void	init_game(t_game *game);
+void	error_exit(const char *msg);
 
 #endif
