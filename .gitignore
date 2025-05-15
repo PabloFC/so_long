@@ -3,3 +3,5 @@
 *.a
 so_long
 MLX42/build/
+MLX42_backup/
+libft_backup/

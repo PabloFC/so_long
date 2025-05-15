@@ -6,7 +6,7 @@
 /*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:06:21 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/13 14:07:38 by pafuente         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:38:33 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+char	*ft_strjoin_temp(char *s1, const char *s2);
 
 //printf
 int		ft_printf(const char *format, ...);
@@ -80,6 +81,5 @@ char	*ft_readfile(int fd, char *str);
 char	*ft_newline(char *str);
 char	*ft_restline(char *line);
 char	*get_next_line(int fd);
-
 
 #endif

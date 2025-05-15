@@ -6,7 +6,7 @@
 #    By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 12:53:10 by pafuente          #+#    #+#              #
-#    Updated: 2025/05/13 13:42:21 by pafuente         ###   ########.fr        #
+#    Updated: 2025/05/15 11:47:22 by pafuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ ft_printf_functions.c\
 ft_printf_pointers.c\
 ft_printf_unsigned.c\
 get_next_line.c\
-get_next_line_utils.c
+get_next_line_utils.c\
+ft_strjoin_temp.c
 
 OBJS = $(SRCS:.c=.o)
 
