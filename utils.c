@@ -18,18 +18,33 @@ void error_exit(const char *msg)
 	exit(EXIT_FAILURE);
 }
 
-int	count_rows(char **map)
+int count_rows(char **map)
 {
-	int	i = 0;
+	int i = 0;
 
 	while (map[i])
 		i++;
 	return (i);
 }
-void	close_game(t_game *game)
+void close_game(t_game *game)
 {
 	if (game->mlx)
 		mlx_terminate(game->mlx);
 	free_map(game->map);
 	exit(EXIT_SUCCESS);
+}
+
+void free_map(char **map)
+{
+	int i;
+
+	if (!map)
+		return;
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
 }
