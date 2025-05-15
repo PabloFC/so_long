@@ -16,16 +16,28 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 MLX_DIR = MLX42
-MLX_FLAGS = -L$(MLX_DIR)/build -lmlx42 -ldl -lm -lglfw -pthread
-
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
 INCLUDES = -Iinclude -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
-# Auto-generar lista de archivos fuente (.c)
+# Auto-generate list of source files (.c)
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
+
+# Detect operating system
+UNAME_S := $(shell uname -s)
+
+# ========================
+# FLAGS TO COMPILE
+# ========================
+ifeq ($(UNAME_S),Darwin)
+	# macOS
+	MLX_FLAGS = -L$(MLX_DIR)/build -lmlx42 -ldl -lm -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+else
+	# Linux (WSL o Linux nativo)
+	MLX_FLAGS = -L$(MLX_DIR)/build -lmlx42 -ldl -lm -lglfw -pthread
+
+endif
 
 # ========================
 # RULES
