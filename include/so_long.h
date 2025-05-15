@@ -6,7 +6,7 @@
 /*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:09:34 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/14 14:10:34 by pafuente         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:23:39 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ typedef struct s_game
 
 void	init_game(t_game *game);
 void	error_exit(const char *msg);
+char	**read_map(const char *file, t_game *game);
 
 #endif
