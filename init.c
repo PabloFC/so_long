@@ -19,3 +19,29 @@ void	init_game(t_game *game)
 		error_exit("Error al iniciar MLX");
 	game->moves = 0;
 }
+
+void	load_textures(t_game *game)
+{
+	mlx_texture_t	*tex;
+
+	tex = mlx_load_png("assets/wall.png");
+	game->img_wall = mlx_texture_to_image(game->mlx, tex);
+	mlx_delete_texture(tex);
+
+	tex = mlx_load_png("assets/floor.png");
+	game->img_floor = mlx_texture_to_image(game->mlx, tex);
+	mlx_delete_texture(tex);
+
+	tex = mlx_load_png("assets/player.png");
+	game->img_player = mlx_texture_to_image(game->mlx, tex);
+	mlx_delete_texture(tex);
+
+	tex = mlx_load_png("assets/collect.png");
+	game->img_collect = mlx_texture_to_image(game->mlx, tex);
+	mlx_delete_texture(tex);
+
+	tex = mlx_load_png("assets/exit.png");
+	game->img_exit = mlx_texture_to_image(game->mlx, tex);
+	mlx_delete_texture(tex);
+}
+

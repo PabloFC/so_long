@@ -6,7 +6,7 @@
 /*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:09:34 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/15 12:54:01 by pafuente         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:31:16 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,9 @@ void	error_exit(const char *msg);
 char	**read_map(const char *file, t_game *game);
 bool	validate_map(t_game *game);
 void	render_map(t_game *game);
+void	handle_input(mlx_key_data_t keydata, void *param);
+void	close_game(t_game *game);
+int		count_rows(char **map);
+
 
 #endif
