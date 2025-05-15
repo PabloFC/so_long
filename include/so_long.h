@@ -6,7 +6,7 @@
 /*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:09:34 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/15 13:31:16 by pafuente         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:08:05 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	render_map(t_game *game);
 void	handle_input(mlx_key_data_t keydata, void *param);
 void	close_game(t_game *game);
 int		count_rows(char **map);
-
+void	move_player(t_game *game, int dx, int dy);
+void	load_textures(t_game *game);
 
 #endif
