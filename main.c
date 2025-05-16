@@ -24,7 +24,10 @@ int32_t	main(int argc, char **argv)
 	game.width = ft_strlen(game.map[0]);
 
 	if (!validate_map(&game))
-		error_exit("Mapa inválido");
+	{
+    free_map(game.map);
+    error_exit("Mapa inválido");
+	}
 
 	init_game(&game);
 	load_textures(&game);
