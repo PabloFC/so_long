@@ -26,13 +26,6 @@ int count_rows(char **map)
 		i++;
 	return (i);
 }
-void close_game(t_game *game)
-{
-	if (game->mlx)
-		mlx_terminate(game->mlx);
-	free_map(game->map);
-	exit(EXIT_SUCCESS);
-}
 
 void free_map(char **map)
 {
