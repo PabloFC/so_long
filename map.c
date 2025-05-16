@@ -12,14 +12,14 @@
 
 #include "so_long.h"
 
-char	**read_map(const char *file, t_game *game)
+char **read_map(const char *file, t_game *game)
 {
-	int		fd;
-	char	*line;
-	char	*joined;
-	char	**map;
+	int fd;
+	char *line;
+	char *joined;
+	char **map;
 
-    (void)game;
+	(void)game;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error_exit("Could not open the map");
@@ -28,7 +28,7 @@ char	**read_map(const char *file, t_game *game)
 	line = get_next_line(fd);
 	while (line)
 	{
-		joined = ft_strjoin_temp(joined, line); 
+		joined = ft_strjoin_temp(joined, line);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -38,24 +38,24 @@ char	**read_map(const char *file, t_game *game)
 	return (map);
 }
 
-static bool	is_valid_char(char c)
+static bool is_valid_char(char c)
 {
 	return (c == '0' || c == '1' || c == 'P' || c == 'C' || c == 'E');
 }
 
-bool	validate_map(t_game *game)
+bool validate_map(t_game *game)
 {
-	int		y;
-	int		x;
-	int		player = 0;
-	int		collect = 0;
-	int		exit = 0;
+	int y;
+	int x;
+	int player = 0;
+	int collect = 0;
+	int exit = 0;
 
 	y = 0;
 	while (y < game->height)
 	{
 		if ((int)ft_strlen(game->map[y]) != game->width)
-			return (false); // No es rectangular
+			return (false);
 
 		x = 0;
 		while (x < game->width)
@@ -65,7 +65,7 @@ bool	validate_map(t_game *game)
 				return (false);
 
 			if ((y == 0 || y == game->height - 1 || x == 0 || x == game->width - 1) && tile != '1')
-				return (false); // Bordes no cerrados
+				return (false);
 
 			if (tile == 'P')
 			{
@@ -87,33 +87,32 @@ bool	validate_map(t_game *game)
 	return (true);
 }
 
-
 typedef struct s_point
 {
-	int	x;
-	int	y;
-}	t_point;
+	int x;
+	int y;
+} t_point;
 
-static void	mark_reachable(char **map, int width, int height, int start_x, int start_y)
+static void mark_reachable(char **map, int width, int height, int start_x, int start_y)
 {
-	t_point	queue[10000]; // Tamaño suficiente para mapas pequeños
-	int		front = 0;
-	int		back = 0;
+	t_point queue[10000];
+	int front = 0;
+	int back = 0;
 
 	queue[back++] = (t_point){start_x, start_y};
 
 	while (front < back)
 	{
-		t_point	current = queue[front++];
-		int		x = current.x;
-		int		y = current.y;
+		t_point current = queue[front++];
+		int x = current.x;
+		int y = current.y;
 
 		if (x < 0 || x >= width || y < 0 || y >= height)
 			continue;
 		if (map[y][x] == '1' || map[y][x] == 'V')
 			continue;
 
-		map[y][x] = 'V'; // marcar como visitado
+		map[y][x] = 'V';
 
 		queue[back++] = (t_point){x + 1, y};
 		queue[back++] = (t_point){x - 1, y};
@@ -122,21 +121,21 @@ static void	mark_reachable(char **map, int width, int height, int start_x, int s
 	}
 }
 
-bool	validate_path(t_game *game)
+bool validate_path(t_game *game)
 {
-	int		i, j;
-	char	**copy;
+	int i, j;
+	char **copy;
 
 	copy = malloc(sizeof(char *) * (game->height + 1));
 	if (!copy)
-		error_exit("Error al reservar memoria para validación de caminos");
+		error_exit("Error allocating memory for path validation");
 
 	i = 0;
 	while (i < game->height)
 	{
 		copy[i] = ft_strdup(game->map[i]);
 		if (!copy[i])
-			error_exit("Error duplicando mapa para validación");
+			error_exit("Error duplicating map for validation");
 		i++;
 	}
 	copy[i] = NULL;
@@ -149,8 +148,7 @@ bool	validate_path(t_game *game)
 		j = 0;
 		while (j < game->width)
 		{
-			if ((game->map[i][j] == COLLECTIBLE || game->map[i][j] == EXIT)
-				&& copy[i][j] != 'V')
+			if ((game->map[i][j] == COLLECTIBLE || game->map[i][j] == EXIT) && copy[i][j] != 'V')
 			{
 				free_map(copy);
 				return (false);
