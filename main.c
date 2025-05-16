@@ -17,10 +17,10 @@ int32_t main(int argc, char **argv)
 	t_game game;
 
 	if (argc != 2)
-		error_exit("Uso: ./so_long maps/archivo.ber");
+		error_exit("Usage: ./so_long maps/file.ber");
 
 	if (!ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))
-		error_exit("El archivo debe tener extensión .ber");
+		error_exit("The file must have a .ber extension");
 
 	game.map = read_map(argv[1], &game);
 	game.height = count_rows(game.map);
@@ -29,7 +29,7 @@ int32_t main(int argc, char **argv)
 	if (!validate_map(&game) || !validate_path(&game))
 	{
 		free_map(game.map);
-		error_exit("Mapa inválido");
+		error_exit("Invalid map");
 	}
 
 	init_game(&game);
