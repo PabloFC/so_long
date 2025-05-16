@@ -12,21 +12,24 @@
 
 #include "so_long.h"
 
-int32_t	main(int argc, char **argv)
+int32_t main(int argc, char **argv)
 {
-	t_game	game;
+	t_game game;
 
 	if (argc != 2)
 		error_exit("Uso: ./so_long maps/archivo.ber");
+
+	if (!ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))
+		error_exit("El archivo debe tener extensión .ber");
 
 	game.map = read_map(argv[1], &game);
 	game.height = count_rows(game.map);
 	game.width = ft_strlen(game.map[0]);
 
-	if (!validate_map(&game))
+	if (!validate_map(&game) || !validate_path(&game))
 	{
-    free_map(game.map);
-    error_exit("Mapa inválido");
+		free_map(game.map);
+		error_exit("Mapa inválido");
 	}
 
 	init_game(&game);
@@ -40,4 +43,3 @@ int32_t	main(int argc, char **argv)
 	free_map(game.map);
 	return (0);
 }
-
