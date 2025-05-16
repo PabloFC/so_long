@@ -86,3 +86,79 @@ bool	validate_map(t_game *game)
 	game->collectibles = collect;
 	return (true);
 }
+
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
+static void	mark_reachable(char **map, int width, int height, int start_x, int start_y)
+{
+	t_point	queue[10000]; // Tamaño suficiente para mapas pequeños
+	int		front = 0;
+	int		back = 0;
+
+	queue[back++] = (t_point){start_x, start_y};
+
+	while (front < back)
+	{
+		t_point	current = queue[front++];
+		int		x = current.x;
+		int		y = current.y;
+
+		if (x < 0 || x >= width || y < 0 || y >= height)
+			continue;
+		if (map[y][x] == '1' || map[y][x] == 'V')
+			continue;
+
+		map[y][x] = 'V'; // marcar como visitado
+
+		queue[back++] = (t_point){x + 1, y};
+		queue[back++] = (t_point){x - 1, y};
+		queue[back++] = (t_point){x, y + 1};
+		queue[back++] = (t_point){x, y - 1};
+	}
+}
+
+bool	validate_path(t_game *game)
+{
+	int		i, j;
+	char	**copy;
+
+	copy = malloc(sizeof(char *) * (game->height + 1));
+	if (!copy)
+		error_exit("Error al reservar memoria para validación de caminos");
+
+	i = 0;
+	while (i < game->height)
+	{
+		copy[i] = ft_strdup(game->map[i]);
+		if (!copy[i])
+			error_exit("Error duplicando mapa para validación");
+		i++;
+	}
+	copy[i] = NULL;
+
+	mark_reachable(copy, game->width, game->height, game->player_x, game->player_y);
+
+	i = 0;
+	while (i < game->height)
+	{
+		j = 0;
+		while (j < game->width)
+		{
+			if ((game->map[i][j] == COLLECTIBLE || game->map[i][j] == EXIT)
+				&& copy[i][j] != 'V')
+			{
+				free_map(copy);
+				return (false);
+			}
+			j++;
+		}
+		i++;
+	}
+	free_map(copy);
+	return (true);
+}
