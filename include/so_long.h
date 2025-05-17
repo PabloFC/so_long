@@ -13,23 +13,30 @@
 #ifndef SO_LONG_H
 #define SO_LONG_H
 
+// Standard libraries
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+
+// External libraries
 #include "MLX42/MLX42.h"
 #include "libft.h"
+
+// Game constants
 #define WIDTH 256
 #define HEIGHT 256
 #define TILE_SIZE 64
+
 #define WALL '1'
 #define FLOOR '0'
 #define PLAYER 'P'
 #define COLLECTIBLE 'C'
 #define EXIT 'E'
 
+// Game structure
 typedef struct s_game
 {
 	mlx_t *mlx;
@@ -47,6 +54,7 @@ typedef struct s_game
 	int collectibles;
 } t_game;
 
+// Function prototypes
 void init_game(t_game *game);
 void error_exit(const char *msg);
 char **read_map(const char *file, t_game *game);
