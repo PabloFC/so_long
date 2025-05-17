@@ -25,11 +25,14 @@
 #include "MLX42/MLX42.h"
 #include "libft.h"
 
-// Game constants
-#define WIDTH 256
-#define HEIGHT 256
+// Window size (default resolution for MLX window)
+#define WIDTH 800
+#define HEIGHT 600
+
+// Tile size
 #define TILE_SIZE 64
 
+// Map tile characters
 #define WALL '1'
 #define FLOOR '0'
 #define PLAYER 'P'
