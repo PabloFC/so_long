@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-int32_t main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	t_game game;
 
@@ -26,7 +26,7 @@ int32_t main(int argc, char **argv)
 	game.height = count_rows(game.map);
 	game.width = ft_strlen(game.map[0]);
 
-	if (!validate_map(&game) || !validate_path(&game))
+	if (!validate_map(&game))
 	{
 		free_map(game.map);
 		error_exit("Invalid map");

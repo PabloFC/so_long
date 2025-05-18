@@ -19,14 +19,12 @@ char **read_map(const char *file)
 {
 	int fd;
 	char *line;
-	char *joined;
+	char *joined = NULL;
 	char **map;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error_exit("Could not open the map");
-
-	joined = NULL;
 	while ((line = get_next_line(fd)))
 	{
 		joined = ft_strjoin_temp(joined, line);
@@ -38,9 +36,36 @@ char **read_map(const char *file)
 	return (map);
 }
 
-static bool is_valid_char(char c)
+static bool check_elements_count(int player, int collect, int exit_count)
 {
-	return (c == '0' || c == '1' || c == 'P' || c == 'C' || c == 'E');
+	return (player == 1 && collect >= 1 && exit_count >= 1);
+}
+
+static bool check_accessibility(t_game *game)
+{
+	char **copy;
+	int y;
+	int x;
+
+	copy = duplicate_map(game->map, game->height);
+	flood_fill(copy, game->width, game->height, game->player_x, game->player_y);
+	y = 0;
+	while (y < game->height)
+	{
+		x = 0;
+		while (copy[y][x])
+		{
+			if (copy[y][x] == 'C' || copy[y][x] == 'E')
+			{
+				free_map(copy);
+				return (false);
+			}
+			x++;
+		}
+		y++;
+	}
+	free_map(copy);
+	return (true);
 }
 
 /*validate_map ensures that the map is rectangular,
@@ -50,98 +75,21 @@ static bool is_valid_char(char c)
  otherwise, it returns false.*/
 bool validate_map(t_game *game)
 {
-	int y;
-	int x;
+	int y = 0;
 	int player = 0;
 	int collect = 0;
 	int exit_count = 0;
 
-	y = 0;
 	while (y < game->height)
 	{
 		if ((int)ft_strlen(game->map[y]) != game->width)
 			return (false);
-		x = 0;
-		while (x < game->width)
-		{
-			char tile = game->map[y][x];
-			if (!is_valid_char(tile))
-				return (false);
-			if ((y == 0 || y == game->height - 1 || x == 0 || x == game->width - 1) && tile != '1')
-				return (false);
-			if (tile == 'P')
-			{
-				player++;
-				game->player_x = x;
-				game->player_y = y;
-			}
-			else if (tile == 'C')
-				collect++;
-			else if (tile == 'E')
-				exit_count++;
-			x++;
-		}
+		if (!check_line(game, y, &player, &collect, &exit_count))
+			return (false);
 		y++;
 	}
-	if (player != 1 || collect < 1 || exit_count < 1)
+	if (!check_elements_count(player, collect, exit_count))
 		return (false);
 	game->collectibles = collect;
-	return (true);
-}
-
-/*flood_fill traverses the map from a starting position
- and marks all accessible tiles, helping to validate
-  that the map is playable.*/
-static void flood_fill(char **map, int width, int height, int x, int y)
-{
-	if (x < 0 || x >= width || y < 0 || y >= height)
-		return;
-	if (map[y][x] == '1' || map[y][x] == 'V')
-		return;
-	map[y][x] = 'V';
-	flood_fill(map, width, height, x + 1, y);
-	flood_fill(map, width, height, x - 1, y);
-	flood_fill(map, width, height, x, y + 1);
-	flood_fill(map, width, height, x, y - 1);
-}
-
-bool validate_path(t_game *game)
-{
-	int i;
-	int j;
-	char **copy;
-
-	copy = malloc(sizeof(char *) * (game->height + 1));
-	if (!copy)
-		error_exit("Error allocating memory for path validation");
-	i = 0;
-	while (i < game->height)
-	{
-		copy[i] = ft_strdup(game->map[i]);
-		if (!copy[i])
-			error_exit("Error duplicating map for validation");
-		i++;
-	}
-	copy[i] = NULL;
-
-	flood_fill(copy, game->width, game->height,
-			   game->player_x, game->player_y);
-
-	i = 0;
-	while (i < game->height)
-	{
-		j = 0;
-		while (j < game->width)
-		{
-			if ((game->map[i][j] == COLLECTIBLE || game->map[i][j] == EXIT) && copy[i][j] != 'V')
-			{
-				free_map(copy);
-				return (false);
-			}
-			j++;
-		}
-		i++;
-	}
-	free_map(copy);
-	return (true);
+	return (check_accessibility(game));
 }
