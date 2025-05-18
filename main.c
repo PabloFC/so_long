@@ -22,7 +22,7 @@ int32_t main(int argc, char **argv)
 	if (!ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))
 		error_exit("The file must have a .ber extension");
 
-	game.map = read_map(argv[1], &game);
+	game.map = read_map(argv[1]);
 	game.height = count_rows(game.map);
 	game.width = ft_strlen(game.map[0]);
 

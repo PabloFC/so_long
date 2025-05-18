@@ -12,14 +12,16 @@
 
 #include "so_long.h"
 
-char **read_map(const char *file, t_game *game)
+/* read_map opens the map file, reads all its lines,
+joins them together and then splits them into an array of strings,
+thus returning the map ready to be used in the game. */
+char **read_map(const char *file)
 {
 	int fd;
 	char *line;
 	char *joined;
 	char **map;
 
-	(void)game;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error_exit("Could not open the map");
@@ -41,6 +43,11 @@ static bool is_valid_char(char c)
 	return (c == '0' || c == '1' || c == 'P' || c == 'C' || c == 'E');
 }
 
+/*validate_map ensures that the map is rectangular,
+ is surrounded by walls, contains only valid characters,
+ has exactly one player, at least one collectible, and at least one exit.
+ If everything is correct, it returns true;
+ otherwise, it returns false.*/
 bool validate_map(t_game *game)
 {
 	int y;
@@ -82,6 +89,9 @@ bool validate_map(t_game *game)
 	return (true);
 }
 
+/*flood_fill traverses the map from a starting position
+ and marks all accessible tiles, helping to validate
+  that the map is playable.*/
 static void flood_fill(char **map, int width, int height, int x, int y)
 {
 	if (x < 0 || x >= width || y < 0 || y >= height)
