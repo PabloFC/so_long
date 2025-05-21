@@ -24,7 +24,11 @@ bool check_line(t_game *game, int y, int *player, int *collect, int *exit_count)
         if (!is_valid_char(line[x]))
             return (false);
         if (line[x] == PLAYER)
+        {
             (*player)++;
+            game->player_x = x;
+            game->player_y = y;
+        }
         else if (line[x] == COLLECTIBLE)
             (*collect)++;
         else if (line[x] == EXIT)
@@ -35,6 +39,7 @@ bool check_line(t_game *game, int y, int *player, int *collect, int *exit_count)
     }
     return (true);
 }
+
 
 bool is_valid_char(char c)
 {
