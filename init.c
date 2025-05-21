@@ -14,7 +14,7 @@
 
 void init_game(t_game *game)
 {
-	game->mlx = mlx_init(WIDTH, HEIGHT, "so_long", true);
+	game->mlx = mlx_init(game->width * TILE_SIZE, game->height * TILE_SIZE, "so_long", true);
 	if (!game->mlx)
 		error_exit("Error initializing MLX");
 	game->moves = 0;

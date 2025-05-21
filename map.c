@@ -41,21 +41,22 @@ static bool check_elements_count(int player, int collect, int exit_count)
 	return (player == 1 && collect >= 1 && exit_count >= 1);
 }
 
-static bool check_accessibility(t_game *game)
+static bool	check_collectibles_access(t_game *game)
 {
-	char **copy;
-	int y;
-	int x;
+	char	**copy;
+	int		y;
+	int		x;
 
 	copy = duplicate_map(game->map, game->height);
-	flood_fill(copy, game->width, game->height, game->player_x, game->player_y);
+	flood_fill(copy, game->width, game->height,
+		game->player_x, game->player_y);
 	y = 0;
 	while (y < game->height)
 	{
 		x = 0;
 		while (copy[y][x])
 		{
-			if (copy[y][x] == 'C' || copy[y][x] == 'E')
+			if (copy[y][x] == 'C')
 			{
 				free_map(copy);
 				return (false);
@@ -68,6 +69,33 @@ static bool check_accessibility(t_game *game)
 	return (true);
 }
 
+static bool	check_exit_access(t_game *game)
+{
+	char	**copy;
+	int		y;
+	int		x;
+
+	copy = duplicate_map(game->map, game->height);
+	flood_fill_exit(copy, game->width, game->height,
+		game->player_x, game->player_y);
+	y = 0;
+	while (y < game->height)
+	{
+		x = 0;
+		while (copy[y][x])
+		{
+			if (copy[y][x] == 'E')
+			{
+				free_map(copy);
+				return (false);
+			}
+			x++;
+		}
+		y++;
+	}
+	free_map(copy);
+	return (true);
+}
 /*validate_map ensures that the map is rectangular,
  is surrounded by walls, contains only valid characters,
  has exactly one player, at least one collectible, and at least one exit.
@@ -91,5 +119,5 @@ bool validate_map(t_game *game)
 	if (!check_elements_count(player, collect, exit_count))
 		return (false);
 	game->collectibles = collect;
-	return (check_accessibility(game));
+	return (check_collectibles_access(game) && check_exit_access(game));
 }
