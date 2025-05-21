@@ -48,7 +48,7 @@ static bool	check_collectibles_access(t_game *game)
 	int		x;
 
 	copy = duplicate_map(game->map, game->height);
-	flood_fill(copy, game->width, game->height,
+	flood_fill_collect(copy, game->width, game->height,
 		game->player_x, game->player_y);
 	y = 0;
 	while (y < game->height)
