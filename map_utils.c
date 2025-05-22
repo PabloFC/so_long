@@ -9,12 +9,18 @@
 /*   Updated: 2025/05/22 13:20:15 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "so_long.h"
 
-bool	is_valid_char(char c);
+static bool	is_valid_char(char c)
+{
+	return (c == '0'
+		|| c == '1'
+		|| c == 'P'
+		|| c == 'C'
+		|| c == 'E');
+}
 
-bool	check_line(t_game *game, int y, int *p, int *c, int *e)
+bool	check_line(t_game *game, int y, t_counter *cnt)
 {
 	const char	*line;
 	int			x;
@@ -27,14 +33,14 @@ bool	check_line(t_game *game, int y, int *p, int *c, int *e)
 			return (false);
 		if (line[x] == PLAYER)
 		{
-			(*p)++;
+			cnt->p++;
 			game->player_x = x;
 			game->player_y = y;
 		}
 		else if (line[x] == COLLECTIBLE)
-			(*c)++;
+			cnt->c++;
 		else if (line[x] == EXIT)
-			(*e)++;
+			cnt->e++;
 		if ((y == 0 || y == game->height - 1
 				|| x == 0 || x == game->width - 1)
 			&& line[x] != WALL)
@@ -44,40 +50,40 @@ bool	check_line(t_game *game, int y, int *p, int *c, int *e)
 	return (true);
 }
 
-bool	is_valid_char(char c)
+void	flood_fill_collect(char **map, t_dim dim, t_coord pt)
 {
-	return (c == '0' || c == '1' || c == 'P' || c == 'C' || c == 'E');
+	if (pt.x < 0 || pt.x >= dim.w
+		|| pt.y < 0 || pt.y >= dim.h)
+		return ;
+	if (map[pt.y][pt.x] == '1'
+		|| map[pt.y][pt.x] == 'V'
+		|| map[pt.y][pt.x] == 'E')
+		return ;
+	map[pt.y][pt.x] = 'V';
+	flood_fill_collect(map, dim, (t_coord){pt.x + 1, pt.y});
+	flood_fill_collect(map, dim, (t_coord){pt.x - 1, pt.y});
+	flood_fill_collect(map, dim, (t_coord){pt.x, pt.y + 1});
+	flood_fill_collect(map, dim, (t_coord){pt.x, pt.y - 1});
 }
 
-void	flood_fill_collect(char **map, int w, int h, int x, int y)
+void	flood_fill_exit(char **map, t_dim dim, t_coord pt)
 {
-	if (x < 0 || x >= w || y < 0 || y >= h)
+	if (pt.x < 0 || pt.x >= dim.w
+		|| pt.y < 0 || pt.y >= dim.h)
 		return ;
-	if (map[y][x] == '1' || map[y][x] == 'V')
+	if (map[pt.y][pt.x] == '1'
+		|| map[pt.y][pt.x] == 'V')
 		return ;
-	map[y][x] = 'V';
-	flood_fill_collect(map, w, h, x + 1, y);
-	flood_fill_collect(map, w, h, x - 1, y);
-	flood_fill_collect(map, w, h, x, y + 1);
-	flood_fill_collect(map, w, h, x, y - 1);
-}
-
-void	flood_fill_exit(char **map, int w, int h, int x, int y)
-{
-	if (x < 0 || x >= w || y < 0 || y >= h)
-		return ;
-	if (map[y][x] == '1' || map[y][x] == 'V')
-		return ;
-	if (map[y][x] == 'E')
+	if (map[pt.y][pt.x] == 'E')
 	{
-		map[y][x] = 'V';
+		map[pt.y][pt.x] = 'V';
 		return ;
 	}
-	map[y][x] = 'V';
-	flood_fill_exit(map, w, h, x + 1, y);
-	flood_fill_exit(map, w, h, x - 1, y);
-	flood_fill_exit(map, w, h, x, y + 1);
-	flood_fill_exit(map, w, h, x, y - 1);
+	map[pt.y][pt.x] = 'V';
+	flood_fill_exit(map, dim, (t_coord){pt.x + 1, pt.y});
+	flood_fill_exit(map, dim, (t_coord){pt.x - 1, pt.y});
+	flood_fill_exit(map, dim, (t_coord){pt.x, pt.y + 1});
+	flood_fill_exit(map, dim, (t_coord){pt.x, pt.y - 1});
 }
 
 char	**duplicate_map(char **original, int height)

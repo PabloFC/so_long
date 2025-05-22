@@ -12,11 +12,7 @@
 
 #include "so_long.h"
 
-/*
-** read_map opens the map file, reads all its lines,
-** joins them together and then splits them into an array of strings,
-** thus returning the map ready to be used in the game.
-*/
+
 char	**read_map(const char *file)
 {
 	int		fd;
@@ -41,9 +37,9 @@ char	**read_map(const char *file)
 	return (map);
 }
 
-static bool	check_elements_count(int player, int collect, int exit_count)
+static bool	check_elements_count(t_counter *cnt)
 {
-	if (player == 1 && collect >= 1 && exit_count == 1)
+	if (cnt->p == 1 && cnt->c >= 1 && cnt->e == 1)
 		return (true);
 	return (false);
 }
@@ -51,19 +47,22 @@ static bool	check_elements_count(int player, int collect, int exit_count)
 static bool	check_collectibles_access(t_game *game)
 {
 	char	**copy;
+	t_dim	dim;
+	t_coord	start;
 	int		y;
 	int		x;
 
+	dim = (t_dim){game->width, game->height};
+	start = (t_coord){game->player_x, game->player_y};
 	copy = duplicate_map(game->map, game->height);
-	flood_fill_collect(copy, game->width, game->height,
-		game->player_x, game->player_y);
+	flood_fill_collect(copy, dim, start);
 	y = 0;
 	while (y < game->height)
 	{
 		x = 0;
 		while (copy[y][x])
 		{
-			if (copy[y][x] == 'C')
+			if (copy[y][x] == COLLECTIBLE)
 			{
 				free_map(copy);
 				return (false);
@@ -79,19 +78,22 @@ static bool	check_collectibles_access(t_game *game)
 static bool	check_exit_access(t_game *game)
 {
 	char	**copy;
+	t_dim	dim;
+	t_coord	start;
 	int		y;
 	int		x;
 
+	dim = (t_dim){game->width, game->height};
+	start = (t_coord){game->player_x, game->player_y};
 	copy = duplicate_map(game->map, game->height);
-	flood_fill_exit(copy, game->width, game->height,
-		game->player_x, game->player_y);
+	flood_fill_exit(copy, dim, start);
 	y = 0;
 	while (y < game->height)
 	{
 		x = 0;
 		while (copy[y][x])
 		{
-			if (copy[y][x] == 'E')
+			if (copy[y][x] == EXIT)
 			{
 				free_map(copy);
 				return (false);
@@ -104,33 +106,23 @@ static bool	check_exit_access(t_game *game)
 	return (true);
 }
 
-/*
-** validate_map ensures that the map is rectangular,
-** is surrounded by walls, contains only valid characters,
-** has exactly one player, at least one collectible, and at least one exit.
-** If everything is correct, it returns true; otherwise, it returns false.
-*/
 bool	validate_map(t_game *game)
 {
-	int	y;
-	int	player;
-	int	collect;
-	int	exit_count;
+	t_counter	cnt;
+	int			y;
 
+	cnt = (t_counter){0, 0, 0};
 	y = 0;
-	player = 0;
-	collect = 0;
-	exit_count = 0;
 	while (y < game->height)
 	{
-		if ((int)ft_strlen(game->map[y]) != game->width)
-			return (false);
-		if (!check_line(game, y, &player, &collect, &exit_count))
+		if ((int)ft_strlen(game->map[y]) != game->width
+			|| !check_line(game, y, &cnt))
 			return (false);
 		y++;
 	}
-	if (!check_elements_count(player, collect, exit_count))
+	if (!check_elements_count(&cnt))
 		return (false);
-	game->collectibles = collect;
-	return (check_collectibles_access(game) && check_exit_access(game));
+	game->collectibles = cnt.c;
+	return (check_collectibles_access(game)
+		&& check_exit_access(game));
 }
