@@ -14,12 +14,15 @@
 
 void	move_player(t_game *game, int dx, int dy)
 {
-	int		new_x = game->player_x + dx;
-	int		new_y = game->player_y + dy;
-	char	tile = game->map[new_y][new_x];
+	int		new_x;
+	int		new_y;
+	char	tile;
 
+	new_x = game->player_x + dx;
+	new_y = game->player_y + dy;
+	tile = game->map[new_y][new_x];
 	if (tile == WALL)
-		return;
+		return ;
 	if (tile == COLLECTIBLE)
 	{
 		game->collectibles--;
@@ -36,4 +39,3 @@ void	move_player(t_game *game, int dx, int dy)
 	ft_printf("Moves: %d\n", game->moves);
 	render_map(game);
 }
-

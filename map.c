@@ -12,23 +12,28 @@
 
 #include "so_long.h"
 
-/* read_map opens the map file, reads all its lines,
-joins them together and then splits them into an array of strings,
-thus returning the map ready to be used in the game. */
-char **read_map(const char *file)
+/*
+** read_map opens the map file, reads all its lines,
+** joins them together and then splits them into an array of strings,
+** thus returning the map ready to be used in the game.
+*/
+char	**read_map(const char *file)
 {
-	int fd;
-	char *line;
-	char *joined = NULL;
-	char **map;
+	int		fd;
+	char	*line;
+	char	*joined;
+	char	**map;
 
+	joined = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error_exit("Could not open the map");
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		joined = ft_strjoin_temp(joined, line);
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	map = ft_split(joined, '\n');
@@ -36,9 +41,11 @@ char **read_map(const char *file)
 	return (map);
 }
 
-static bool check_elements_count(int player, int collect, int exit_count)
+static bool	check_elements_count(int player, int collect, int exit_count)
 {
-	return (player == 1 && collect >= 1 && exit_count == 1);
+	if (player == 1 && collect >= 1 && exit_count == 1)
+		return (true);
+	return (false);
 }
 
 static bool	check_collectibles_access(t_game *game)
@@ -96,18 +103,24 @@ static bool	check_exit_access(t_game *game)
 	free_map(copy);
 	return (true);
 }
-/*validate_map ensures that the map is rectangular,
- is surrounded by walls, contains only valid characters,
- has exactly one player, at least one collectible, and at least one exit.
- If everything is correct, it returns true;
- otherwise, it returns false.*/
-bool validate_map(t_game *game)
-{
-	int y = 0;
-	int player = 0;
-	int collect = 0;
-	int exit_count = 0;
 
+/*
+** validate_map ensures that the map is rectangular,
+** is surrounded by walls, contains only valid characters,
+** has exactly one player, at least one collectible, and at least one exit.
+** If everything is correct, it returns true; otherwise, it returns false.
+*/
+bool	validate_map(t_game *game)
+{
+	int	y;
+	int	player;
+	int	collect;
+	int	exit_count;
+
+	y = 0;
+	player = 0;
+	collect = 0;
+	exit_count = 0;
 	while (y < game->height)
 	{
 		if ((int)ft_strlen(game->map[y]) != game->width)
