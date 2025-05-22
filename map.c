@@ -38,7 +38,7 @@ char **read_map(const char *file)
 
 static bool check_elements_count(int player, int collect, int exit_count)
 {
-	return (player == 1 && collect >= 1 && exit_count >= 1);
+	return (player == 1 && collect >= 1 && exit_count == 1);
 }
 
 static bool	check_collectibles_access(t_game *game)
