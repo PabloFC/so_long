@@ -12,11 +12,11 @@
 
 #include "so_long.h"
 
-void move_player(t_game *game, int dx, int dy)
+void	move_player(t_game *game, int dx, int dy)
 {
-	int new_x = game->player_x + dx;
-	int new_y = game->player_y + dy;
-	char tile = game->map[new_y][new_x];
+	int		new_x = game->player_x + dx;
+	int		new_y = game->player_y + dy;
+	char	tile = game->map[new_y][new_x];
 
 	if (tile == WALL)
 		return;
@@ -25,21 +25,15 @@ void move_player(t_game *game, int dx, int dy)
 		game->collectibles--;
 		game->map[new_y][new_x] = FLOOR;
 	}
-	if (tile == EXIT)
+	if (tile == EXIT && game->collectibles == 0)
 	{
-		if (game->collectibles == 0)
-		{
-			ft_printf("You have won in %d moves!\n", ++game->moves);
-			close_game(game);
-		}
-		return;
+		ft_printf("You have won in %d moves!\n", ++game->moves);
+		close_game(game);
 	}
-	// Update player position
-	game->map[game->player_y][game->player_x] = FLOOR;
-	game->map[new_y][new_x] = PLAYER;
 	game->player_x = new_x;
 	game->player_y = new_y;
 	game->moves++;
 	ft_printf("Moves: %d\n", game->moves);
 	render_map(game);
 }
+

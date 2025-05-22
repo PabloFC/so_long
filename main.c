@@ -33,7 +33,12 @@ int main(int argc, char **argv)
 	}
 
 	init_game(&game);
-	load_textures(&game);
+	if (!load_textures(&game))
+	{
+	mlx_terminate(game.mlx);
+	free_map(game.map);
+	error_exit("Failed to load textures");
+}	
 	render_map(&game);
 
 	mlx_key_hook(game.mlx, handle_input, &game);

@@ -71,7 +71,7 @@ void handle_input(mlx_key_data_t keydata, void *param);
 void close_game(t_game *game);
 int count_rows(char **map);
 void move_player(t_game *game, int dx, int dy);
-void load_textures(t_game *game);
+bool load_textures(t_game *game);
 void free_map(char **map);
 
 #endif

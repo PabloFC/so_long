@@ -12,12 +12,13 @@
 
 #include "so_long.h"
 
-void handle_input(mlx_key_data_t keydata, void *param)
+void	handle_input(mlx_key_data_t keydata, void *param)
 {
-	t_game *game = (t_game *)param;
+	t_game	*game;
 
+	game = (t_game *)param;
 	if (keydata.action != MLX_PRESS)
-		return;
+		return ;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		close_game(game);
 	else if (keydata.key == MLX_KEY_W)
@@ -30,7 +31,7 @@ void handle_input(mlx_key_data_t keydata, void *param)
 		move_player(game, 1, 0);
 }
 
-void close_game(t_game *game)
+void	close_game(t_game *game)
 {
 	if (game->mlx)
 		mlx_terminate(game->mlx);

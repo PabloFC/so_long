@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 16:00:00 by pafuente          #+#    #+#             */
-/*   Updated: 2025/05/18 16:00:00 by pafuente         ###   ########.fr       */
+/*   Created: 2025/05/22 09:51:18 by pafuente          #+#    #+#             */
+/*   Updated: 2025/05/22 09:51:18 by pafuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "so_long.h"
 
 #include "so_long.h"
 
@@ -46,12 +48,12 @@ bool    is_valid_char(char c)
     return (c == '0' || c == '1' || c == 'P' || c == 'C' || c == 'E');
 }
 
-/* flood_fill_collect: marks reachable floor and collectibles, stops at walls and exit */
+/* flood_fill_collect: marks reachable floor and collectibles, stops at walls */
 void    flood_fill_collect(char **map, int width, int height, int x, int y)
 {
     if (x < 0 || x >= width || y < 0 || y >= height)
         return;
-    if (map[y][x] == '1' || map[y][x] == 'V' || map[y][x] == 'E')
+    if (map[y][x] == '1' || map[y][x] == 'V')
         return;
     map[y][x] = 'V';
     flood_fill_collect(map, width, height, x + 1, y);

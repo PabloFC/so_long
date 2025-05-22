@@ -12,11 +12,24 @@
 
 #include "so_long.h"
 
+static void	draw_tile(t_game *game, int x, int y)
+{
+	char	tile = game->map[y][x];
+
+	if (tile == WALL)
+		mlx_image_to_window(game->mlx, game->img_wall, x * TILE_SIZE, y * TILE_SIZE);
+	else
+		mlx_image_to_window(game->mlx, game->img_floor, x * TILE_SIZE, y * TILE_SIZE);
+	if (tile == COLLECTIBLE)
+		mlx_image_to_window(game->mlx, game->img_collect, x * TILE_SIZE, y * TILE_SIZE);
+	else if (tile == EXIT)
+		mlx_image_to_window(game->mlx, game->img_exit, x * TILE_SIZE, y * TILE_SIZE);
+}
+
 void	render_map(t_game *game)
 {
 	int	x;
 	int	y;
-	char	tile;
 
 	y = 0;
 	while (y < game->height)
@@ -24,19 +37,13 @@ void	render_map(t_game *game)
 		x = 0;
 		while (x < game->width)
 		{
-			tile = game->map[y][x];
-			if (tile == '1')
-				mlx_image_to_window(game->mlx, game->img_wall, x * TILE_SIZE, y * TILE_SIZE);
-			else if (tile == '0')
-				mlx_image_to_window(game->mlx, game->img_floor, x * TILE_SIZE, y * TILE_SIZE);
-			else if (tile == 'P')
-				mlx_image_to_window(game->mlx, game->img_player, x * TILE_SIZE, y * TILE_SIZE);
-			else if (tile == 'C')
-				mlx_image_to_window(game->mlx, game->img_collect, x * TILE_SIZE, y * TILE_SIZE);
-			else if (tile == 'E')
-				mlx_image_to_window(game->mlx, game->img_exit, x * TILE_SIZE, y * TILE_SIZE);
+			draw_tile(game, x, y);
 			x++;
 		}
 		y++;
 	}
+	mlx_image_to_window(game->mlx, game->img_player,
+		game->player_x * TILE_SIZE, game->player_y * TILE_SIZE);
 }
+
+

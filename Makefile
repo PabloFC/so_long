@@ -13,7 +13,7 @@
 NAME = so_long
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 MLX_DIR = MLX42
 LIBFT_DIR = libft
