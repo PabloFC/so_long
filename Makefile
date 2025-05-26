@@ -20,27 +20,36 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -Iinclude -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
-# Auto-generate list of source files (.c)
-SRC = $(wildcard *.c)
+# ========================
+# LISTA DE ARCHIVOS FUENTE MANUAL
+# ========================
+
+SRC =	main.c \
+		game.c \
+		init.c \
+		map_utils.c \
+		map.c \
+		maps_checks.c \
+		move_player.c \
+		render.c \
+		utils.c
+
 OBJ = $(SRC:.c=.o)
 
-# Detect operating system
+# ========================
+# FLAGS PARA COMPILAR SEGÚN SISTEMA
+# ========================
+
 UNAME_S := $(shell uname -s)
 
-# ========================
-# FLAGS TO COMPILE
-# ========================
 ifeq ($(UNAME_S),Darwin)
-	# macOS
 	MLX_FLAGS = -L$(MLX_DIR)/build -lmlx42 -ldl -lm -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 else
-	# Linux (WSL o Linux nativo)
 	MLX_FLAGS = -L$(MLX_DIR)/build -lmlx42 -ldl -lm -lglfw -pthread
-
 endif
 
 # ========================
-# RULES
+# REGLAS
 # ========================
 
 all: $(NAME)

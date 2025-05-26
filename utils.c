@@ -12,15 +12,15 @@
 
 #include "so_long.h"
 
-void	error_exit(const char *msg)
+void error_exit(const char *msg)
 {
 	ft_printf("Error\n%s\n", msg);
 	exit(EXIT_FAILURE);
 }
 
-int	count_rows(char **map)
+int count_rows(char **map)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (map[i])
@@ -28,16 +28,15 @@ int	count_rows(char **map)
 	return (i);
 }
 
-void	free_map(char **map)
+void free_map(char **map)
 {
-	int	i;
+	int i;
 
 	if (!map)
-		return ;
+		return;
 	i = 0;
 	while (map[i])
 	{
-		printf("%s\n", map[i]);
 		free(map[i]);
 		i++;
 	}
