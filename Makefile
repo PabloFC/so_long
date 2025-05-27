@@ -10,6 +10,18 @@
 #                                                                              #
 # **************************************************************************** #
 
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pafuente <pafuente@student.42malaga.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/08 13:05:32 by pafuente          #+#    #+#              #
+#    Updated: 2025/05/27 13:55:00 by pafuente         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = so_long
 
 CC = cc
@@ -20,22 +32,27 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -Iinclude -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
-# ========================
-# LISTA DE ARCHIVOS FUENTE MANUAL
-# ========================
+SRC = src/main.c \
+	  src/game.c \
+	  src/init.c \
+	  src/map.c \
+	  src/map_utils.c \
+	  src/flood_fill.c \
+	  src/maps_checks.c \
+	  src/move_player.c \
+	  src/render.c \
+	  src/utils.c
 
-SRC =	main.c \
-		game.c \
-		init.c \
-		map_utils.c \
-		map.c \
-		flood_fill.c \
-		maps_checks.c \
-		move_player.c \
-		render.c \
-		utils.c
-
-OBJ = $(SRC:.c=.o)
+OBJ = main.o \
+	  game.o \
+	  init.o \
+	  map.o \
+	  map_utils.o \
+	  flood_fill.o \
+	  maps_checks.o \
+	  move_player.o \
+	  render.o \
+	  utils.o
 
 # ========================
 # FLAGS PARA COMPILAR SEGÚN SISTEMA
@@ -63,7 +80,7 @@ $(NAME): $(OBJ) $(LIBFT)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-%.o: %.c
+%.o: src/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
