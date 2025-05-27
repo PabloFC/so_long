@@ -11,90 +11,54 @@
 /* ************************************************************************** */
 #include "so_long.h"
 
-static bool	is_valid_char(char c)
+static bool is_valid_char(char c)
 {
-	return (c == '0'
-		|| c == '1'
-		|| c == 'P'
-		|| c == 'C'
-		|| c == 'E');
+	return (c == '0' || c == '1' || c == 'P' || c == 'C' || c == 'E');
 }
 
-bool	check_line(t_game *game, int y, t_counter *cnt)
+static bool check_cell(t_game *game, int y, int x, t_counter *cnt)
 {
-	const char	*line;
-	int			x;
+	char c = game->map[y][x];
 
-	line = game->map[y];
-	x = 0;
+	if (!is_valid_char(c))
+		return (false);
+	if (c == PLAYER)
+	{
+		cnt->p++;
+		game->player_x = x;
+		game->player_y = y;
+	}
+	else if (c == COLLECTIBLE)
+		cnt->c++;
+	else if (c == EXIT)
+		cnt->e++;
+	if ((y == 0 || y == game->height - 1 || x == 0 || x == game->width - 1) && c != WALL)
+		return (false);
+	return (true);
+}
+
+bool check_line(t_game *game, int y, t_counter *cnt)
+{
+	const char *line = game->map[y];
+	int x = 0;
+
 	while (line[x])
 	{
-		if (!is_valid_char(line[x]))
-			return (false);
-		if (line[x] == PLAYER)
-		{
-			cnt->p++;
-			game->player_x = x;
-			game->player_y = y;
-		}
-		else if (line[x] == COLLECTIBLE)
-			cnt->c++;
-		else if (line[x] == EXIT)
-			cnt->e++;
-		if ((y == 0 || y == game->height - 1
-				|| x == 0 || x == game->width - 1)
-			&& line[x] != WALL)
+		if (!check_cell(game, y, x, cnt))
 			return (false);
 		x++;
 	}
 	return (true);
 }
 
-void	flood_fill_collect(char **map, t_dim dim, t_coord pt)
+char **duplicate_map(char **original, int height)
 {
-	if (pt.x < 0 || pt.x >= dim.w
-		|| pt.y < 0 || pt.y >= dim.h)
-		return ;
-	if (map[pt.y][pt.x] == '1'
-		|| map[pt.y][pt.x] == 'V'
-		|| map[pt.y][pt.x] == 'E')
-		return ;
-	map[pt.y][pt.x] = 'V';
-	flood_fill_collect(map, dim, (t_coord){pt.x + 1, pt.y});
-	flood_fill_collect(map, dim, (t_coord){pt.x - 1, pt.y});
-	flood_fill_collect(map, dim, (t_coord){pt.x, pt.y + 1});
-	flood_fill_collect(map, dim, (t_coord){pt.x, pt.y - 1});
-}
-
-void	flood_fill_exit(char **map, t_dim dim, t_coord pt)
-{
-	if (pt.x < 0 || pt.x >= dim.w
-		|| pt.y < 0 || pt.y >= dim.h)
-		return ;
-	if (map[pt.y][pt.x] == '1'
-		|| map[pt.y][pt.x] == 'V')
-		return ;
-	if (map[pt.y][pt.x] == 'E')
-	{
-		map[pt.y][pt.x] = 'V';
-		return ;
-	}
-	map[pt.y][pt.x] = 'V';
-	flood_fill_exit(map, dim, (t_coord){pt.x + 1, pt.y});
-	flood_fill_exit(map, dim, (t_coord){pt.x - 1, pt.y});
-	flood_fill_exit(map, dim, (t_coord){pt.x, pt.y + 1});
-	flood_fill_exit(map, dim, (t_coord){pt.x, pt.y - 1});
-}
-
-char	**duplicate_map(char **original, int height)
-{
-	char	**copy;
-	int		i;
+	char **copy;
+	int i = 0;
 
 	copy = malloc(sizeof(char *) * (height + 1));
 	if (!copy)
 		error_exit("Error allocating memory for map copy");
-	i = 0;
 	while (i < height)
 	{
 		copy[i] = ft_strdup(original[i]);

@@ -29,6 +29,7 @@ SRC =	main.c \
 		init.c \
 		map_utils.c \
 		map.c \
+		flood_fill.c \
 		maps_checks.c \
 		move_player.c \
 		render.c \
